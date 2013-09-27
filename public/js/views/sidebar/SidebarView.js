@@ -12,25 +12,6 @@ define([
     el: $(".sidebar"),
 
     initialize: function(){
-        this.collection = new StudentsCollection();
-        console.log(this.collection);
-        this.checkForStudentJoinAnnouncement();
-        this.collection.on('change', this.render);
-    },
-
-    checkForStudentJoinAnnouncement: function(){
-      var that = this
-        MessageBus.on('onstudentJoinedAnnouncement', function(data){
-          console.log('onstudentJoinedAnnouncement');
-          _.each(data.studentsData, function(student){
-            var studentModel = new StudentModel({
-              name: student.name,
-              id: student.id
-            });
-            that.collection.add(studentModel);
-          });
-          that.render();
-        });
     },
 
     render: function(){
@@ -41,8 +22,6 @@ define([
         students: that.collection.toJSON()
       };
       
-      console.log("sideview collection is "+ that.collection.toJSON());
-
       var compiledTemplate = _.template( sidebarTemplate, data );
     
       $(".sidebar").append(compiledTemplate);
